@@ -18,8 +18,18 @@
                         <span class="text-lg font-bold text-gray-900 dark:text-gray-200">Address:</span>
                         <span class="text-gray-700 dark:text-gray-400 ml-2">{{ $company->address }}</span>
                     </div>
+                    
+                    <div class="mb-4">
+                        <span class="text-lg font-bold text-gray-900 dark:text-gray-200">Website:</span>
+                        <span class="text-gray-700 dark:text-gray-400 ml-2">{{ $company->website }}</span>
+                    </div>
 
-                    @if(auth()->user()->id === $company->user_id)
+                    <div class="mb-4">
+                        <span class="text-lg font-bold text-gray-900 dark:text-gray-200">Phone:</span>
+                        <span class="text-gray-700 dark:text-gray-400 ml-2">{{ $company->phone }}</span>
+                    </div>
+
+                    @if(auth()->user()->companies->contains($company->id))
                         <div class="mt-6">
                             <a href="{{ route('companies.edit', $company) }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
                                 Edit Company

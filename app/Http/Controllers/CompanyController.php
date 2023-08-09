@@ -20,15 +20,25 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
-        // Validate and store the company
-        $company = new Company($request->all());
-        $company->save();
+        // Validiere die Eingabedaten
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+        ]);
+
+        // Erstelle eine neue Company mit den validierten Daten
+        $company = Company::create($data);
+
+        // Füge den eingeloggten Benutzer zur Liste der Benutzer der Company hinzu
+        $company->users()->attach(auth()->user()->id);
 
         return redirect()->route('companies.index');
     }
 
     public function show(Company $company)
     {
+        $company = Company::with('users')->find($company->id);
+        dd($company);
         return view('companies.show', ['company' => $company]);
     }
 

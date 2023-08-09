@@ -20,11 +20,14 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
-        // Validiere die Eingabedaten
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'website' => 'nullable|url|max:255', // Validiert, dass es sich um eine gültige URL handelt
+            'phone' => 'nullable|string|max:20', // Annahme, dass die Telefonnummer nicht länger als 20 Zeichen ist
+            // ... weitere Validierungsregeln
         ]);
+        
 
         // Erstelle eine neue Company mit den validierten Daten
         $company = Company::create($data);
@@ -38,7 +41,6 @@ class CompanyController extends Controller
     public function show(Company $company)
     {
         $company = Company::with('users')->find($company->id);
-        dd($company);
         return view('companies.show', ['company' => $company]);
     }
 
@@ -49,6 +51,12 @@ class CompanyController extends Controller
 
     public function update(Request $request, Company $company)
     {
+        $data = $request->validate([
+            'address' => 'required|string|max:255',
+            'website' => 'nullable|url|max:255',
+            'phone' => 'nullable|string|max:20',
+        ]);
+        
         $company->update($request->all());
         return redirect()->route('companies.index');
     }

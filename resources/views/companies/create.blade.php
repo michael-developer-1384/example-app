@@ -34,7 +34,12 @@
 
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Create Company') }}</x-primary-button>
+                            <a href="{{ route('companies.index') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                                Back
+                            </a>
                         </div>
+
+
                     </form>
                 </div>
             </div>

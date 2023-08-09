@@ -29,13 +29,20 @@
                         <span class="text-gray-700 dark:text-gray-400 ml-2">{{ $company->phone }}</span>
                     </div>
 
-                    @if(auth()->user()->companies->contains($company->id))
-                        <div class="mt-6">
+                    
+                    <div class="flex items-center gap-4">
+
+                        @if(auth()->user()->companies->contains($company->id))
                             <a href="{{ route('companies.edit', $company) }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
                                 Edit Company
                             </a>
-                        </div>
-                    @endif
+                        @endif
+
+                        <a href="{{ route('companies.index') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                            Back
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>

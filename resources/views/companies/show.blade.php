@@ -6,10 +6,26 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    // Display details of a single company
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white dark:bg-gray-800 border-b border-gray-200">
+                    <div class="mb-4">
+                        <span class="text-lg font-bold text-gray-900 dark:text-gray-200">Name:</span>
+                        <span class="text-gray-700 dark:text-gray-400 ml-2">{{ $company->name }}</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="text-lg font-bold text-gray-900 dark:text-gray-200">Address:</span>
+                        <span class="text-gray-700 dark:text-gray-400 ml-2">{{ $company->address }}</span>
+                    </div>
+
+                    @if(auth()->user()->id === $company->user_id)
+                        <div class="mt-6">
+                            <a href="{{ route('companies.edit', $company) }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                                Edit Company
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

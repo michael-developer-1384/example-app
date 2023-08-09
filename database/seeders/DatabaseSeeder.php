@@ -20,5 +20,14 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory(10)->create();
 
+        \App\Models\Company::factory(5)->create()->each(function ($company) {
+            $users = \App\Models\User::inRandomOrder()->take(rand(1, 3))->get();
+            $company->users()->attach($users);
+        });
+    
+        \App\Models\Role::factory(3)->create()->each(function ($role) {
+            $users = \App\Models\User::inRandomOrder()->take(rand(1, 4))->get();
+            $role->users()->attach($users);
+        });
     }
 }

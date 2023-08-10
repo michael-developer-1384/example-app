@@ -12,6 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $roles = ['Admin', 'Manager', 'Participant', 'Trainer'];
+        foreach ($roles as $roleName) {
+            \App\Models\Role::create(['name' => $roleName]);
+        }
         
         \App\Models\User::factory()->create([
             'name' => 'admin',
@@ -24,10 +28,6 @@ class DatabaseSeeder extends Seeder
             $users = \App\Models\User::inRandomOrder()->take(rand(1, 3))->get();
             $company->users()->attach($users);
         });
-    
-        \App\Models\Role::factory(3)->create()->each(function ($role) {
-            $users = \App\Models\User::inRandomOrder()->take(rand(1, 4))->get();
-            $role->users()->attach($users);
-        });
+
     }
 }

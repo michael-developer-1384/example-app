@@ -35,4 +35,15 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Nachdem der Benutzer erstellt wurde, weise ihm die Rolle "Participant" zu.
+     */
+    public function configure()
+    {
+        return $this->afterCreating(function ($user) {
+            $participantRole = \App\Models\Role::where('name', 'Participant')->first();
+            $user->roles()->attach($participantRole);
+        });
+    }
 }

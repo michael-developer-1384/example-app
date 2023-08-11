@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white dark:bg-gray-800 border-b border-gray-200">
+                <div class="p-6 bg-white dark:bg-gray-800">
                     <div class="mb-4">
                         <span class="text-lg font-bold text-gray-900 dark:text-gray-200">Name:</span>
                         <span class="text-gray-700 dark:text-gray-400 ml-2">{{ $company->name }}</span>
@@ -47,7 +47,15 @@
             </div>
                
             <div class="mt-8"><br>
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4">Users</h2>
+                
+
+                <div class="flex justify-between items-center mt-8">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4">Users</h2>
+                    <a href="{{ route('participants.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                        Add Participant
+                    </a>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 @forelse ($uniqueUsers as $user)

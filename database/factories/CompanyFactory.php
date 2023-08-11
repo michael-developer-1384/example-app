@@ -12,7 +12,7 @@ class CompanyFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->company,
+            'name' => $this->faker->company.' '.$this->faker->companySuffix,
             'address' => $this->faker->address,
             'website' => $this->faker->url,
             'phone' => $this->faker->phoneNumber,

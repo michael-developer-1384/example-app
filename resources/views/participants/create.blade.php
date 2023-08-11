@@ -37,16 +37,19 @@
                         @foreach (auth()->user()->companies->unique('id') as $company)
                             <div class="bg-gray-100 p-4 my-4 rounded">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-xl">{{ $company->name }}</span>
-                                    <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" checked onchange="toggleCompanyRoles({{ $company->id }})">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" checked onchange="toggleCompanyRoles({{ $company->id }})">
+                                        <span class="text-xl ml-2">{{ $company->name }}</span>
+                                    </div>
                                 </div>
 
                                 <div class="mt-2 company-roles" id="roles_for_company_{{ $company->id }}">
+                                    <hr><br>
                                     @foreach (\App\Models\Role::all() as $role)
                                         <label class="mr-4 inline-flex items-center">
                                             <input type="checkbox" name="roles[{{ $company->id }}][]" value="{{ $role->id }}" {{ $role->name == 'Participant' ? 'checked' : '' }}>
                                             <span class="ml-2">{{ $role->name }}</span>
-                                        </label>
+                                        </label><br>
                                     @endforeach
                                 </div>
                             </div>
@@ -61,6 +64,7 @@
             </div>
         </div>
     </div>
+    
     <script>
         function toggleCompanyRoles(companyId) {
             const isChecked = document.getElementById(`company_${companyId}`).checked;
@@ -70,13 +74,16 @@
             checkboxes.forEach(checkbox => {
                 checkbox.disabled = !isChecked;
             });
+
+            // Toggle visibility based on the checkbox state
+            rolesDiv.style.display = isChecked ? 'block' : 'none';
         }
 
         // Initial setup
         document.addEventListener('DOMContentLoaded', () => {
-            auth()->user()->companies->unique('id').forEach(company => {
-                toggleCompanyRoles(company.id);
-            });
+            @foreach (auth()->user()->companies->unique('id') as $company)
+                toggleCompanyRoles({{ $company->id }});
+            @endforeach
         });
     </script>
 </x-app-layout>

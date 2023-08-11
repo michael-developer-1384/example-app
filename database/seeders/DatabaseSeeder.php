@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = ['Admin', 'Manager', 'Participant', 'Trainer'];
+        $roles = ['Administrator', 'Manager', 'Participant', 'Trainer'];
         foreach ($roles as $roleName) {
             \App\Models\Role::create(['name' => $roleName]);
         }
@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@test.com',
+            'is_admin' => true,
         ]);
 
     }

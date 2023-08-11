@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         $companies = \App\Models\Company::factory(10)->create();
 
         // Create an additional 100 users and randomly assign them to companies
-        $users = \App\Models\User::factory(100)->create(['is_active' => true]);
+        $users = \App\Models\User::factory(100)->create(['is_active' => true, 'is_full_profile' => false]);
         foreach ($users as $user) {
             $company = $companies->random();
             $role = \App\Models\Role::where('name', 'Participant')->first();

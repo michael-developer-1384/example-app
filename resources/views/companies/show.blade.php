@@ -49,8 +49,8 @@
             <div class="mt-8"><br>
                 
 
-                <div class="flex justify-between items-center mt-8">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4">Users</h2>
+                <div class="flex justify-between items-center mt-8 mb-4">
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4 mt-4">Users</h1>
                     <a href="{{ route('participants.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
                         Add Participant
                     </a>

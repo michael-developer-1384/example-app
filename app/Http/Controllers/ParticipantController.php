@@ -34,7 +34,18 @@ class ParticipantController extends Controller
                 ->with('warning', 'You need to have at least one company to add a participant.');
         }
 
-        return view('participants.create');
+        return view('participants.create', ['selectedCompany' => null]);
+    }
+
+    public function createFromCompany(Company $company)
+    {
+         // Überprüfen, ob der Benutzer mindestens eine Firma hat
+         if (auth()->user()->companiesWithRole->count() == 0) {
+            return redirect()->route('companies.index')
+                ->with('warning', 'You need to have at least one company to add a participant.');
+        }
+
+        return view('participants.create', ['selectedCompany' => $company->id]);
     }
 
     public function store(Request $request)

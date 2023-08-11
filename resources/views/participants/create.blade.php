@@ -38,8 +38,8 @@
                             <div class="bg-gray-100 p-4 my-4 rounded">
                                 <div class="flex justify-between items-center company-header" style="cursor: default;">
                                     <div class="flex items-center">
-                                        <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" checked onchange="toggleCompanyRoles({{ $company->id }})">
-                                        <span class="text-xl ml-2">{{ $company->name }}</span>
+                                    <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" {{ $selectedCompany == $company->id ? 'checked' : '' }} onchange="toggleCompanyRoles({{ $company->id }})">
+                                    <span class="text-xl ml-2">{{ $company->name }}</span>
                                     </div>
                                 </div>
 
@@ -85,6 +85,7 @@
                 toggleCompanyRoles({{ $company->id }});
             @endforeach
         });
+
 
         document.querySelectorAll('.company-header').forEach(header => {
             header.addEventListener('click', function() {

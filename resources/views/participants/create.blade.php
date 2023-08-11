@@ -23,14 +23,9 @@
                             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" required />
                         </div>
 
-                        <div>
-                            <x-input-label for="password" :value="__('Password')" />
-                            <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" required />
-                        </div>
-
-                        <div>
-                            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-                            <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" required />
+                        <div class="flex items-center gap-4">
+                            <input type="checkbox" id="must_change_password" name="must_change_password" value="1">
+                            <x-input-label for="must_change_password" :value="__('Force password change on first login?')" />
                         </div>
 
                         <!-- Companies and Roles -->

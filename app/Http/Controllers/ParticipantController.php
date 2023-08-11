@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ParticipantController extends Controller
 {
@@ -54,12 +55,16 @@ class ParticipantController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            // Fügen Sie weitere Validierungsregeln hinzu, die spezifisch für "Participants" sind
         ]);
 
-        $data['password'] = bcrypt($data['password']);
+        // Generiere ein zufälliges Passwort
+        $password = Str::random(10);
+        $data['password'] = bcrypt($password);
         $data['is_full_profile'] = false;
+
+        // Überprüfen, ob der Admin die Option ausgewählt hat, um das Passwort nach dem ersten Login zu ändern
+        $data['must_change_password'] = $request->input('must_change_password', false);
+
 
         // User erstellen
         $participant = User::create($data);

@@ -12,6 +12,7 @@
                     <form action="{{ route('participants.store') }}" method="post" class="space-y-6">
                         @csrf
 
+                        <!-- Participant Details -->
                         <div>
                             <x-input-label for="name" :value="__('Name')" />
                             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" required autofocus />
@@ -32,21 +33,24 @@
                             <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" required />
                         </div>
 
-                        <div class="mt-4">
-                            <span class="text-lg font-medium">Assign to Companies:</span>
-                            @foreach (auth()->user()->companies->unique('id') as $company)
-                                <div class="mt-2">
-                                    <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" checked>
-                                    <label for="company_{{ $company->id }}">{{ $company->name }}</label>
-
-                                    <select name="roles[{{ $company->id }}][]" class="ml-2" multiple>
-                                        @foreach (\App\Models\Role::all() as $role)
-                                            <option value="{{ $role->id }}" {{ $role->name == 'Participant' ? 'selected' : '' }}>{{ $role->name }}</option>
-                                        @endforeach
-                                    </select>
+                        <!-- Companies and Roles -->
+                        @foreach (auth()->user()->companies->unique('id') as $company)
+                            <div class="bg-gray-100 p-4 my-4 rounded">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xl">{{ $company->name }}</span>
+                                    <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" checked onchange="toggleCompanyRoles({{ $company->id }})">
                                 </div>
-                            @endforeach
-                        </div>
+
+                                <div class="mt-2 company-roles" id="roles_for_company_{{ $company->id }}">
+                                    @foreach (\App\Models\Role::all() as $role)
+                                        <label class="mr-4 inline-flex items-center">
+                                            <input type="checkbox" name="roles[{{ $company->id }}][]" value="{{ $role->id }}" {{ $role->name == 'Participant' ? 'checked' : '' }}>
+                                            <span class="ml-2">{{ $role->name }}</span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
 
 
                         <div class="flex items-center gap-4">
@@ -57,4 +61,22 @@
             </div>
         </div>
     </div>
+    <script>
+        function toggleCompanyRoles(companyId) {
+            const isChecked = document.getElementById(`company_${companyId}`).checked;
+            const rolesDiv = document.getElementById(`roles_for_company_${companyId}`);
+            const checkboxes = rolesDiv.querySelectorAll('input[type="checkbox"]');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = !isChecked;
+            });
+        }
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            auth()->user()->companies->unique('id').forEach(company => {
+                toggleCompanyRoles(company.id);
+            });
+        });
+    </script>
 </x-app-layout>

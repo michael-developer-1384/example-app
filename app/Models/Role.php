@@ -13,6 +13,18 @@ class Role extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'company_role_user')
+                    ->withPivot('company_id')
+                    ->using(CompanyRoleUser::class)
+                    ->withTimestamps();
     }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'company_role_user')
+                    ->withPivot('user_id')
+                    ->using(CompanyRoleUser::class)
+                    ->withTimestamps();
+    }
+
 }

@@ -55,6 +55,17 @@
                         <p class="text-gray-700 dark:text-gray-400 mb-2">
                             <strong>Email:</strong> {{ $user->email }}
                         </p>
+                        @php
+                            $role = $user->rolesInCompany($company)->first(); // Holt die Rolle des Benutzers in dieser Firma
+                        @endphp
+                        @if($role)
+                            <p class="text-gray-700 dark:text-gray-400 mb-2">
+                                <strong>Role ID:</strong> {{ $role->pivot->role_id }}
+                            </p>
+                            <p class="text-gray-700 dark:text-gray-400 mb-2">
+                                <strong>Role Name:</strong> {{ $role->name }}
+                            </p>
+                        @endif
                         <!-- Du kannst hier weitere Benutzerdetails hinzufügen, wenn du möchtest -->
                     </div>
                 @empty

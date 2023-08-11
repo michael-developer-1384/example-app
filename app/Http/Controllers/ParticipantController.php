@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\User;
+use App\Models\Role;
+use App\Models\Company;
 use Illuminate\Http\Request;
 
 class ParticipantController extends Controller
 {
     public function index()
     {
-        $participants = User::all(); // Sie können hier eine spezifische Abfrage verwenden, um nur bestimmte User als "Participants" abzurufen
+        // Get the currently authenticated user
+        $user = Auth::user();
+
+        // Get all companies where the authenticated user is an Admin
+        $adminCompanies = $user->companies()->wherePivot('role_id', Role::where('name', 'Administrator')->first()->id)->pluck('companies.id');
+
+        // Get all participants that belong to these companies
+        $participants = User::whereHas('companies', function ($query) use ($adminCompanies) {
+            $query->whereIn('companies.id', $adminCompanies);
+        })->distinct()->get();
+        
         return view('participants.index', compact('participants'));
     }
 
@@ -39,7 +52,7 @@ class ParticipantController extends Controller
             foreach ($request->input('companies') as $companyId) {
                 if (isset($request->input('roles')[$companyId])) {
                     $roleIds = $request->input('roles')[$companyId];
-                    $participant->roles()->attach($roleIds, ['company_id' => $companyId]);
+                    $participant->rolesInCompanies()->attach($roleIds, ['company_id' => $companyId]);
                 }
             }
         }

@@ -36,10 +36,9 @@
                         <!-- Companies and Roles -->
                         @foreach (auth()->user()->companies->unique('id') as $company)
                             <div class="bg-gray-100 p-4 my-4 rounded">
-                                <div class="flex justify-between items-center">
+                                <div class="flex justify-between items-center company-header" style="cursor: default;">
                                     <div class="flex items-center">
-                                        <!-- Initial checkbox is not checked -->
-                                        <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" onchange="toggleCompanyRoles({{ $company->id }})">
+                                        <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" checked onchange="toggleCompanyRoles({{ $company->id }})">
                                         <span class="text-xl ml-2">{{ $company->name }}</span>
                                     </div>
                                 </div>
@@ -86,5 +85,14 @@
                 toggleCompanyRoles({{ $company->id }});
             @endforeach
         });
+
+        document.querySelectorAll('.company-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;
+                toggleCompanyRoles(checkbox.value);
+            });
+        });
+
     </script>
 </x-app-layout>

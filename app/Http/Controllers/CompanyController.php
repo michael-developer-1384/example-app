@@ -34,7 +34,7 @@ class CompanyController extends Controller
         $company = Company::create($data);
 
         // Füge den eingeloggten Benutzer zur Liste der Benutzer der Company hinzu
-        $company->users()->attach(auth()->user()->id);
+        $company->usersWithRole()->attach(auth()->user()->id);
 
         return redirect()->route('companies.index')->with('success', 'Company created.');
     }
@@ -42,11 +42,11 @@ class CompanyController extends Controller
     public function show(Company $company)
     {
         // Überprüfen, ob der Benutzer Zugriff auf die Company hat
-        if (!Auth::user()->companies->contains($company)) {
+        if (!Auth::user()->companiesWithRole->contains($company)) {
             return redirect()->route('companies.index')->with('error', 'Access denied to view the company.');
         }
 
-        $company = Company::with('users')->find($company->id);
+        $company = Company::with('usersWithRole')->find($company->id);
         $uniqueUsers = $company->users->unique('id');
 
         return view('companies.show', ['company' => $company, 'uniqueUsers' => $uniqueUsers]);

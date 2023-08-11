@@ -11,7 +11,7 @@ class Role extends Model
 
     protected $fillable = ['name', 'description'];
 
-    public function users()
+    public function usersWithRole()
     {
         return $this->belongsToMany(User::class, 'company_role_user')
                     ->withPivot('company_id')
@@ -19,7 +19,7 @@ class Role extends Model
                     ->withTimestamps();
     }
 
-    public function companies()
+    public function companiesWithRole()
     {
         return $this->belongsToMany(Company::class, 'company_role_user')
                     ->withPivot('user_id')

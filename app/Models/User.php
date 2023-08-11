@@ -44,7 +44,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function companies()
+    public function companiesWithRole()
     {
         return $this->belongsToMany(Company::class, 'company_role_user')
                     ->withPivot('role_id')
@@ -52,7 +52,7 @@ class User extends Authenticatable
                     ->withTimestamps();
     }
 
-    public function roles()
+    public function rolesInCompany()
     {
         return $this->belongsToMany(Role::class, 'company_role_user')
                     ->withPivot('company_id')

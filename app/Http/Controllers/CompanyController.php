@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,7 @@ class CompanyController extends Controller
 {
     public function index()
     {
-        $companies = Company::all();
+        $companies = Auth::user()->companies;
         return view('companies.index', ['companies' => $companies]);
     }
 
@@ -40,6 +41,11 @@ class CompanyController extends Controller
 
     public function show(Company $company)
     {
+        // Überprüfen, ob der Benutzer Zugriff auf die Company hat
+        if (!Auth::user()->companies->contains($company)) {
+            return redirect()->route('companies.index')->with('error', 'Access denied to view the company.');
+        }
+
         $company = Company::with('users')->find($company->id);
         return view('companies.show', ['company' => $company]);
     }

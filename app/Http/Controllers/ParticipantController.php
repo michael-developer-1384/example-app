@@ -28,6 +28,12 @@ class ParticipantController extends Controller
 
     public function create()
     {
+        // Überprüfen, ob der Benutzer mindestens eine Firma hat
+        if (auth()->user()->companiesWithRole->count() == 0) {
+            return redirect()->route('companies.index')
+                ->with('warning', 'You need to have at least one company to add a participant.');
+        }
+
         return view('participants.create');
     }
 

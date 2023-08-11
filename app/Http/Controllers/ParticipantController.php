@@ -16,10 +16,10 @@ class ParticipantController extends Controller
         $user = Auth::user();
 
         // Get all companies where the authenticated user is an Admin
-        $adminCompanies = $user->companies()->wherePivot('role_id', Role::where('name', 'Administrator')->first()->id)->pluck('companies.id');
+        $adminCompanies = $user->companiesWithRole()->wherePivot('role_id', Role::where('name', 'Administrator')->first()->id)->pluck('companies.id');
 
         // Get all participants that belong to these companies
-        $participants = User::whereHas('companies', function ($query) use ($adminCompanies) {
+        $participants = User::whereHas('companiesWithRole', function ($query) use ($adminCompanies) {
             $query->whereIn('companies.id', $adminCompanies);
         })->distinct()->get();
         

@@ -43,6 +43,10 @@
                             {{ __('Companies') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('participants.index')">
+                            {{ __('Participants') }}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -93,6 +97,10 @@
                 
                 <x-responsive-nav-link :href="route('companies.index')">
                     {{ __('Companies') }}
+                </x-responsive-nav-link>
+                
+                <x-responsive-nav-link :href="route('participants.index')">
+                    {{ __('Participants') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

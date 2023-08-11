@@ -36,14 +36,14 @@ class DatabaseSeeder extends Seeder
         foreach ($users as $user) {
             $company = $companies->random();
             $role = \App\Models\Role::where('name', 'Participant')->first();
-            $user->companies()->attach($company->id, ['role_id' => $role->id]);
+            $user->companiesWithRole()->attach($company->id, ['role_id' => $role->id]);
         }
 
         // For each company, create a user with the "Administrator" role
         foreach ($companies as $company) {
             $user = \App\Models\User::factory()->create(['is_active' => true]);
             $role = \App\Models\Role::where('name', 'Administrator')->first();
-            $user->companies()->attach($company->id, ['role_id' => $role->id]);
+            $user->companiesWithRole()->attach($company->id, ['role_id' => $role->id]);
         }
     }
 }

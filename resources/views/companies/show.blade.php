@@ -57,23 +57,20 @@
                             <strong>Email:</strong> {{ $user->email }}
                         </p>
                         @php
-                            $role = $user->roles->where('pivot.company_id', $company->id)->first();
+                            $roles = $user->roles->where('pivot.company_id', $company->id)->pluck('name')->toArray();
                         @endphp
-                        @if($role)
+                        @if(!empty($roles))
                             <p class="text-gray-700 dark:text-gray-400 mb-2">
-                                <strong>Role ID:</strong> {{ $role->id }}
-                            </p>
-                            <p class="text-gray-700 dark:text-gray-400 mb-2">
-                                <strong>Role Name:</strong> {{ $role->name }}
+                                <strong>Roles:</strong> {{ implode(', ', $roles) }}
                             </p>
                         @endif
-                        <!-- Du kannst hier weitere Benutzerdetails hinzufügen, wenn du möchtest -->
                     </div>
                 @empty
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center col-span-full">
                         <p class="text-gray-700 dark:text-gray-400">No Users</p>
                     </div>
                 @endforelse
+
 
                 </div>
             </div>

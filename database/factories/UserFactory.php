@@ -36,14 +36,4 @@ class UserFactory extends Factory
         ]);
     }
 
-    /**
-     * Nachdem der Benutzer erstellt wurde, weise ihm die Rolle "Participant" zu.
-     */
-    public function configure()
-    {
-        return $this->afterCreating(function ($user) {
-            $participantRole = \App\Models\Role::where('name', 'Participant')->first();
-            $user->roles()->attach($participantRole);
-        });
-    }
 }

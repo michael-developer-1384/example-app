@@ -22,12 +22,5 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@test.com',
         ]);
 
-        \App\Models\User::factory(10)->create();
-
-        \App\Models\Company::factory(5)->create()->each(function ($company) {
-            $users = \App\Models\User::inRandomOrder()->take(rand(1, 3))->get();
-            $company->users()->attach($users);
-        });
-
     }
 }

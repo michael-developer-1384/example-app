@@ -50,7 +50,7 @@
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4">Users</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                @forelse ($company->users as $user)
+                @forelse ($uniqueUsers as $user)
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">{{ $user->name }}</h3>
                         <p class="text-gray-700 dark:text-gray-400 mb-2">

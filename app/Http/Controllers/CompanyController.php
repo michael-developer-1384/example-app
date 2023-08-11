@@ -36,7 +36,7 @@ class CompanyController extends Controller
         // Füge den eingeloggten Benutzer zur Liste der Benutzer der Company hinzu
         $company->users()->attach(auth()->user()->id);
 
-        return redirect()->route('companies.index');
+        return redirect()->route('companies.index')->with('success', 'Company created.');
     }
 
     public function show(Company $company)
@@ -47,7 +47,9 @@ class CompanyController extends Controller
         }
 
         $company = Company::with('users')->find($company->id);
-        return view('companies.show', ['company' => $company]);
+        $uniqueUsers = $company->users->unique('id');
+
+        return view('companies.show', ['company' => $company, 'uniqueUsers' => $uniqueUsers]);
     }
 
     public function edit(Company $company)

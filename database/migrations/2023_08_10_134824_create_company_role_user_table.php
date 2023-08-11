@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('company_role_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('role_id')->default(2);
+            $table->unsignedBigInteger('role_id')->default(1);
             $table->unsignedBigInteger('company_id')->nullable();
             $table->timestamps();
         

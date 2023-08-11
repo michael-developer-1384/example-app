@@ -34,7 +34,7 @@
 
                         <div class="mt-4">
                             <span class="text-lg font-medium">Assign to Companies:</span>
-                            @foreach (auth()->user()->companies as $company)
+                            @foreach (auth()->user()->companies->unique('id') as $company)
                                 <div class="mt-2">
                                     <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" checked>
                                     <label for="company_{{ $company->id }}">{{ $company->name }}</label>
@@ -47,6 +47,7 @@
                                 </div>
                             @endforeach
                         </div>
+
 
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Create Participant') }}</x-primary-button>

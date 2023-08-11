@@ -4,13 +4,21 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\Company;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
     public function index()
     {
-        $companies = Auth::user()->companies;
+        // Get the ID of the 'Administrator' role
+        $adminRoleId = Role::where('name', 'Administrator')->first()->id;
+
+        // Fetch companies where the authenticated user has the 'Administrator' role
+        $companies = Auth::user()->companiesWithRole->filter(function ($company) use ($adminRoleId) {
+            return $company->pivot->role_id == $adminRoleId;
+        });
+
         return view('companies.index', ['companies' => $companies]);
     }
 
@@ -47,7 +55,7 @@ class CompanyController extends Controller
         }
 
         $company = Company::with('usersWithRole')->find($company->id);
-        $uniqueUsers = $company->users->unique('id');
+        $uniqueUsers = $company->usersWithRole->unique('id');
 
         return view('companies.show', ['company' => $company, 'uniqueUsers' => $uniqueUsers]);
     }

@@ -32,7 +32,7 @@
                     
                     <div class="flex items-center gap-4">
 
-                        @if(auth()->user()->companies->contains($company->id))
+                        @if(auth()->user()->companiesWithRole && auth()->user()->companiesWithRole->contains($company->id))
                             <a href="{{ route('companies.edit', $company) }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
                                 Edit Company
                             </a>
@@ -65,8 +65,9 @@
                             <strong>Email:</strong> {{ $user->email }}
                         </p>
                         @php
-                            $roles = $user->roles->where('pivot.company_id', $company->id)->pluck('name')->toArray();
+                            $roles = $user->rolesInCompany()->wherePivot('company_id', $company->id)->pluck('name')->toArray();
                         @endphp
+
                         @if(!empty($roles))
                             <p class="text-gray-700 dark:text-gray-400 mb-2">
                                 <strong>Roles:</strong> {{ implode(', ', $roles) }}

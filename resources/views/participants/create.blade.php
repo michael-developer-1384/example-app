@@ -34,7 +34,7 @@
                         </div>
 
                         <!-- Companies and Roles -->
-                        @foreach (auth()->user()->companies->unique('id') as $company)
+                        @foreach (auth()->user()->companiesWithRole->unique('id') as $company)
                             <div class="bg-gray-100 p-4 my-4 rounded">
                                 <div class="flex justify-between items-center company-header" style="cursor: default;">
                                     <div class="flex items-center">
@@ -81,7 +81,7 @@
 
         // Initial setup
         document.addEventListener('DOMContentLoaded', () => {
-            @foreach (auth()->user()->companies->unique('id') as $company)
+            @foreach (auth()->user()->companiesWithRole->unique('id') as $company)
                 toggleCompanyRoles({{ $company->id }});
             @endforeach
         });

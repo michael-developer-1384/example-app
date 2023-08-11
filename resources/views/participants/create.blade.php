@@ -32,6 +32,22 @@
                             <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" required />
                         </div>
 
+                        <div class="mt-4">
+                            <span class="text-lg font-medium">Assign to Companies:</span>
+                            @foreach (auth()->user()->companies as $company)
+                                <div class="mt-2">
+                                    <input type="checkbox" name="companies[]" value="{{ $company->id }}" id="company_{{ $company->id }}" checked>
+                                    <label for="company_{{ $company->id }}">{{ $company->name }}</label>
+
+                                    <select name="roles[{{ $company->id }}][]" class="ml-2" multiple>
+                                        @foreach (\App\Models\Role::all() as $role)
+                                            <option value="{{ $role->id }}" {{ $role->name == 'Participant' ? 'selected' : '' }}>{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endforeach
+                        </div>
+
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Create Participant') }}</x-primary-button>
                         </div>

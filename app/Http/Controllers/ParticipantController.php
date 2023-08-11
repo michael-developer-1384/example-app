@@ -34,8 +34,16 @@ class ParticipantController extends Controller
         // User erstellen
         $participant = User::create($data);
 
-        // Weisen Sie dem User spezifische Rollen oder Attribute zu, die ihn als "Participant" kennzeichnen
-        // ...
+        // Zuweisung der Unternehmen und Rollen
+        if ($request->has('companies')) {
+            foreach ($request->input('companies') as $companyId) {
+                $roleIds = array_unique($request->input('roles')[$companyId]); // Entfernen von Duplikaten
+                foreach ($roleIds as $roleId) {
+                    $participant->roles()->attach($roleId, ['company_id' => $companyId]);
+                }
+            }
+        }
+        
 
         return redirect()->route('participants.index')->with('success', 'Participant successfully created.');
     }

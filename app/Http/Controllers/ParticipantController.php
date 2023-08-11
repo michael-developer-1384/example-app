@@ -59,22 +59,27 @@ class ParticipantController extends Controller
 
         // Generiere ein zufälliges Passwort
         $password = Str::random(10);
-        $data['password'] = bcrypt($password);
-        $data['is_full_profile'] = false;
+        $password = bcrypt($password);
 
         // Überprüfen, ob der Admin die Option ausgewählt hat, um das Passwort nach dem ersten Login zu ändern
         $data['must_change_password'] = $request->input('must_change_password', false);
 
 
         // User erstellen
-        $participant = User::create($data);
+        $participant = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $password,
+            'is_full_profile' => false,  // Set to false by default
+            'must_change_password' => $request->has('must_change_password'),  // Check if checkbox is selected
+        ]);
 
         // Assign roles to companies
         if ($request->has('companies')) {
             foreach ($request->input('companies') as $companyId) {
                 if (isset($request->input('roles')[$companyId])) {
                     $roleIds = $request->input('roles')[$companyId];
-                    $participant->rolesInCompanies()->attach($roleIds, ['company_id' => $companyId]);
+                    $participant->rolesInCompany()->attach($roleIds, ['company_id' => $companyId]);
                 }
             }
         }

@@ -21,7 +21,7 @@
         @include('components.flash-messages')
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach ($companies as $company)
+                @forelse ($companies ?? [] as $company)
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">{{ $company->name }}</h3>
                         <p class="text-gray-700 dark:text-gray-400 mb-2">
@@ -33,7 +33,9 @@
                         <br>
                         <a href="{{ route('companies.show', $company) }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">View Details</a>
                     </div>
-                @endforeach
+                @empty
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">No companies yet.</h3>
+                @endforelse
             </div>
         </div>
     </div>

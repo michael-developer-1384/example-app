@@ -22,6 +22,9 @@ class User extends Authenticatable
         'email',
         'password',
         'is_active',
+        'is_full_profile',
+        'must_change_password',
+        'temporary_password',
     ];
 
     /**

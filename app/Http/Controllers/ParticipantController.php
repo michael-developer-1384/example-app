@@ -59,19 +59,15 @@ class ParticipantController extends Controller
 
         // Generiere ein zufälliges Passwort
         $password = Str::random(10);
-        $password = bcrypt($password);
-
-        // Überprüfen, ob der Admin die Option ausgewählt hat, um das Passwort nach dem ersten Login zu ändern
-        $data['must_change_password'] = $request->input('must_change_password', false);
-
+        $password_crypt = bcrypt($password);
 
         // User erstellen
         $participant = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $password,
+            'password' => $password_crypt,
             'is_full_profile' => false,  // Set to false by default
-            'must_change_password' => $request->has('must_change_password'),  // Check if checkbox is selected
+            'must_change_password' => $request->has('must_change_password')  // Check if checkbox is selected
         ]);
 
         // Assign roles to companies
